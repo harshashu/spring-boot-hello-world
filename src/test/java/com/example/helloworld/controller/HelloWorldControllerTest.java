@@ -20,8 +20,8 @@ public class HelloWorldControllerTest {
     @Test
     public void shouldReturnExpectedMessage() throws Exception {
 
-        mockMvc.perform(get("/hello3"))
-                .andExpect(status().isOk()3)
-                .andExpect(content().string("Hello, World!3"));
+        mockMvc.perform(get("/hello"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Hello, World!"));
     }
 }
