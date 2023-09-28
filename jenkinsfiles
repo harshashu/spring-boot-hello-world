@@ -1,7 +1,7 @@
 pipeline {
    agent any
     environment {
-        def scannerHome = tool 'sonarScanner5.0.1'
+        def scannerHome = tool 'sonarScanner5.0.1.3006'
     }
     stages {
         stage("Build"){
