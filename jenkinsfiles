@@ -44,5 +44,19 @@ pipeline {
               }
             }
         }
+          stage("Upload Artifacts"){
+            steps{
+                
+                rtServer (
+                        id: 'jfrog-server',
+                        url: 'http://192.168.55.109:8082/',
+                        // If you're using username and password:
+                        username: 'admin',
+                        password: 'Harsha2422',
+                        timeout: 300
+                )
+               
+    }
+}
     }
 }
