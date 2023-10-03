@@ -4,16 +4,16 @@ pipeline {
         def scannerHome = tool 'mysonarQube'
     }
     stages {
-        stage("Build"){
-            steps {
-               script {
-                sh "rm -rf target/*.jar"
-                sh "mvn install"
-                sh "mv target/*.jar target/spring-boot-2-hello-world-1.0.2-SNAPSHOT-${BUILD_NUMBER}.jar"
-                sh "printenv"
-               }
-            }
-        }
+       // stage("Build"){
+         //   steps {
+           //    script {
+             //   sh "rm -rf target/*.jar"
+             //   sh "mvn install"
+             //   sh "mv target/*.jar target/spring-boot-2-hello-world-1.0.2-SNAPSHOT-${BUILD_NUMBER}.jar"
+              //  sh "printenv"
+              // }
+          //  }
+       // }
 
       //  stage("Unit-Test"){
         //    steps {
