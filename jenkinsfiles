@@ -4,24 +4,24 @@ pipeline {
         def scannerHome = tool 'mysonarQube'
     }
     stages {
-       // stage("Build"){
-         //   steps {
-           //    script {
-             //   sh "rm -rf target/*.jar"
-             //   sh "mvn install"
-             //   sh "mv target/*.jar target/spring-boot-2-hello-world-1.0.2-SNAPSHOT-${BUILD_NUMBER}.jar"
-              //  sh "printenv"
-              // }
-          //  }
-       // }
+       stage("Build"){
+            steps {
+               script {
+                sh "rm -rf target/*.jar"
+                sh "mvn install"
+                sh "mv target/*.jar target/spring-boot-2-hello-world-1.0.2-SNAPSHOT-${BUILD_NUMBER}.jar"
+                sh "printenv"
+               }
+            }
+        }
 
-      //  stage("Unit-Test"){
-        //    steps {
-          //      script {
-            //        sh "mvn test"
-              //  }
-            //}
-        //}
+        stage("Unit-Test"){
+            steps {
+                script {
+                    sh "mvn test"
+                }
+            }
+        }
 
         stage("Code Analysis"){
             steps {
@@ -37,13 +37,13 @@ pipeline {
             }
         }
 
-       // stage("Quality Gate") {
-           // steps {
-             // timeout(time: 3, unit: 'MINUTES') {
-             //   waitForQualityGate abortPipeline: true
-           //   }
-           // }
-       // }
+        stage("Quality Gate") {
+            steps {
+              timeout(time: 3, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+        }
           stage("Upload Artifacts"){
             steps{
                 
