@@ -23,92 +23,51 @@ pipeline {
             }
         }
 
-      // stage("Code Analysis"){
-        //    steps {
-          //    withSonarQubeEnv('sonarqube') {
-            //       sh """ ${scannerHome}/bin/sonar-scanner \
-              //     -Dsonar.projectKey=spring-boot-hello-world \
-                //    -Dsonar.projectName=spring-boot-hello-world \
-                //    -Dsonar.sources=. \
-                 //   -Dsonar.java.binaries=target/classes \
-                 //   -Dsonar.sourceEncoding=UTF-8
-                   // """
-        //       }
-         //   }
-       // }
+      stage("Code Analysis"){
+           steps {
+             withSonarQubeEnv('sonarqube') {
+                  sh """ ${scannerHome}/bin/sonar-scanner \
+                  -Dsonar.projectKey=spring-boot-hello-world \
+                   -Dsonar.projectName=spring-boot-hello-world \
+                   -Dsonar.sources=. \
+                   -Dsonar.java.binaries=target/classes \
+                   -Dsonar.sourceEncoding=UTF-8
+                   """
+              }
+           }
+       }
 
-      //  stage("Quality Gate") {
-       //     steps {
-         //     timeout(time: 3, unit: 'MINUTES') {
-           //     waitForQualityGate abortPipeline: true
-             // }
-           // }
-       // }
-         // stage("Upload Artifacts"){
-           // steps{
+       stage("Quality Gate") {
+           steps {
+             timeout(time: 3, unit: 'MINUTES') {
+               waitForQualityGate abortPipeline: true
+             }
+           }
+       }
+         stage("Upload Artifacts"){
+           steps{
                 
-             //   rtServer (
-               //         id: 'jfrog-server',
-                 //       url: 'http://192.168.29.244:8082/artifactory/',
-                        // If you're using username and password:
-                   //     username: 'admin',
-                     //   password: 'Harsha2422',
-                      //  timeout: 300
-               // )
-                 // rtUpload (
-                   // serverId: 'jfrog-server',
-                   // spec: '''{
-                     //   "files": [
-                       //     {
-                         //   "pattern": "target/*.jar",
-                           // "target": "example-repo-local"
-                           // }
-                       // ]
-               //     }''',
+               rtServer (
+                       id: 'jfrog-server',
+                       url: 'http://192.168.29.244:8082/artifactory/',
+                        If you're using username and password:
+                       username: 'admin',
+                       password: 'Harsha2422',
+                       timeout: 300
+               )
+                 rtUpload (
+                   serverId: 'jfrog-server',
+                   spec: '''{
+                       "files": [
+                           {
+                           "pattern": "target/*.jar",
+                           "target": "example-repo-local"
+                           }
+                       ]
+                   }''',
 
-              //  ) 
-           // }
-         // } 
-            stage("Deploy - Dev"){
-            steps {
-                 sshagent(['ssh-creds']) {
-                    sh """      
-                        scp   -o StrictHostKeyChecking=no  target/*.jar    cloud_user@683b06656b2c.mylabserver.com:/home/cloud_user
-                     """
-                 }
-             }
-
-         }
-
-         stage("Deploy - UAT"){
-             steps {
-
-                 sshagent(['ssh-creds']) {
-                 sh """      
-                     scp  -o StrictHostKeyChecking=no   target/*.jar    cloud_user@683b06656b3c.mylabserver.com:/home/cloud_user
-                 """
-             }
-             }
-
-         }
-
-         stage("Deploy - Prod"){
-             input{
-                  message "Do you want to proceed for production deployment?"
-             }
-
-             steps {
-
-                 sshagent(['ssh-creds']) {
-                 sh """      
-                   scp    -o StrictHostKeyChecking=no  target/*.jar    cloud_user@683b06656b3c.mylabserver.com:/home/cloud_user
-                 """
-             }
-             }
-
-         }
-
-  
+               ) 
+           }
+         } 
     }
-
 }
