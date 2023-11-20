@@ -1,17 +1,20 @@
 pipeline {
     agent any
-    stages{
-        stage("Build-code")
+
+    stages {
+        stage("Build-code"){
         steps{
             script{
                 sh "mvn install"
             }
         }
-         stage("image-Build")
+        }   
+         stage("image-Build"){
         steps{
             script{
                 sh "docker build -t harshavardhini24/hello-world:latest ."
             }
         }
+         }
     }
 }
