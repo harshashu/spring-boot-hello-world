@@ -12,7 +12,7 @@ pipeline {
          stage("image-Build"){
         steps{
             script{
-                 sh "docker build -t vsiraparapu/hello-world:latest ."
+                 sh "docker build -t myapp ."
             }
         }
          }
